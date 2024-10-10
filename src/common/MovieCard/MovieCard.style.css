@@ -3,6 +3,7 @@
  height: 330px;
  background-size: cover;
  background-repeat: no-repeat;
+ object-fit: cover;
  cursor: pointer;
  transition: all 0.5s;
  &:hover{
