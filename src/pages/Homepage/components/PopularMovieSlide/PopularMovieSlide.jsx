@@ -6,6 +6,7 @@ import { responsive } from '../../../../constants/responsive';
 
 const PopularMovieSlide = () => {
     const { data, isLoading, isError, error } = usePopularMoviesQuery();
+
     if(isLoading){ return <h1>Loading...</h1>}
     if(isError) { return <Alert varient='danger'>{error.message}</Alert>}
 

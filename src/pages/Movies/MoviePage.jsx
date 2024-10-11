@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Alert } from 'bootstrap';
 import { useSearchMovieQuery } from '../../hooks/useSearchMovie'
+import { useMovieGenreQuery } from '../../hooks/useMovieGenre';
 import { useSearchParams } from 'react-router-dom';
 import { Container, Row, Col } from 'react-bootstrap';
 import MovieCard from '../../common/MovieCard/MovieCard';
@@ -16,28 +17,46 @@ import ReactPaginate from 'react-paginate';
 // page값이 바뀔 때 마다 useSearchMovie에 page까지 넣어서 fetch
 
 const MoviePage = () => {
+  const {data:genreData} = useMovieGenreQuery();
   const [page, setPage] = useState(1);
   const [query, setQuery] = useSearchParams();
   const keyword = query.get("q");
-  const { data, isLoading, isError, error } = useSearchMovieQuery({ keyword, page });
+  const {data, isLoading, isError, error } = useSearchMovieQuery({ keyword, page });
+  const [movies, setMovies] = useState([]);
 
-  const handlePageClick = ({ selected }) => {
-    setPage(selected + 1)
+  const handlePageClick = ({ selected }) => { setPage(selected + 1)}
+
+  const showfilter = (id) => {
+    let filterData = data?.filter(list => list.genre_ids.includes(id))
+
+    console.log(filterData);
+    setMovies(filterData)
+
+    console.log(movies);
   }
 
-  console.log(data);
+  useEffect(() => {
+    if(data){
+      setMovies(data);
+    }
+  }, [data])
 
   if(isLoading){ return <h1>Loading...</h1>}
   if(isError) { return <Alert varient='danger'>{error.message}</Alert>}
-    
+   
   return (
     <Container>
       <Row>
-        <Col lg={4} xs={12}> 필터</Col>
+        <Col lg={4} xs={12}> 
+        <h3>필터</h3>
+        {
+        genreData?.map((genre, index) => <button key={index} onClick={() => showfilter(genre.id)}>{genre.name}</button>)
+        }
+        </Col>
         <Col lg={8} xs={12}>
           <Row>
           {
-            data?.results.map((movie, index) => 
+            movies?.map((movie, index) => 
               (<Col key={index} lg={4} xs={12}> <MovieCard movie={movie}/> </Col>)
             )
           }
