@@ -23,7 +23,9 @@ const MovieCard = ( { movie } ) => {
         backgroundImage : `url(https://media.themoviedb.org/t/p/w533_and_h300_bestv2/${movie.poster_path})`,
     }}
     className='movie-card'
-    onClick={() => navigate(`/movies/${movie.id}`)}
+    onClick={() => {
+      navigate(`/movies/${movie.id}`)
+    }}
     >
         <div className='overlay'>
             <h1>{movie?.title}</h1>

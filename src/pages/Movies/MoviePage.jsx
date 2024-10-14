@@ -28,11 +28,7 @@ const MoviePage = () => {
 
   const showfilter = (id) => {
     let filterData = data?.filter(list => list.genre_ids.includes(id))
-
-    console.log(filterData);
     setMovies(filterData)
-
-    console.log(movies);
   }
 
   useEffect(() => {
@@ -61,27 +57,33 @@ const MoviePage = () => {
             )
           }
           </Row>
-          <ReactPaginate
-                  nextLabel="next >"
-                  onPageChange={handlePageClick}
-                  pageRangeDisplayed={3}
-                  marginPagesDisplayed={2}
-                  pageCount={data?.total_pages}
-                  previousLabel="< previous"
-                  pageClassName="page-item"
-                  pageLinkClassName="page-link"
-                  previousClassName="page-item"
-                  previousLinkClassName="page-link"
-                  nextClassName="page-item"
-                  nextLinkClassName="page-link"
-                  breakLabel="..."
-                  breakClassName="page-item"
-                  breakLinkClassName="page-link"
-                  containerClassName="pagination"
-                  activeClassName="active"
-                  renderOnZeroPageCount={null}
-                  forcePage={page - 1}
-                />
+
+          {
+            movies.length 
+            ? <ReactPaginate
+                nextLabel="next >"
+                onPageChange={handlePageClick}
+                pageRangeDisplayed={3}
+                marginPagesDisplayed={2}
+                pageCount={data?.total_pages}
+                previousLabel="< previous"
+                pageClassName="page-item"
+                pageLinkClassName="page-link"
+                previousClassName="page-item"
+                previousLinkClassName="page-link"
+                nextClassName="page-item"
+                nextLinkClassName="page-link"
+                breakLabel="..."
+                breakClassName="page-item"
+                breakLinkClassName="page-link"
+                containerClassName="pagination"
+                activeClassName="active"
+                renderOnZeroPageCount={null}
+                forcePage={page - 1}
+              />
+            : null
+          }
+          
 
         </Col>
       </Row>
